@@ -1,0 +1,332 @@
+object frmClienteContato: TfrmClienteContato
+  Left = 0
+  Top = 0
+  Caption = 'Teste Programador - MicroData'
+  ClientHeight = 480
+  ClientWidth = 658
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object pnlBotom: TPanel
+    Align = Top
+    Size.Width = 658.000000000000000000
+    Size.Height = 57.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object grdCliente: TGrid
+    Align = Top
+    CanFocus = True
+    ClipChildren = True
+    Position.Y = 57.000000000000000000
+    Size.Width = 658.000000000000000000
+    Size.Height = 196.000000000000000000
+    Size.PlatformDefault = False
+    RowCount = 0
+    Viewport.Width = 654.000000000000000000
+    Viewport.Height = 171.000000000000000000
+  end
+  object grdContato: TGrid
+    Align = Client
+    CanFocus = True
+    ClipChildren = True
+    Size.Width = 658.000000000000000000
+    Size.Height = 170.000000000000000000
+    Size.PlatformDefault = False
+    RowCount = 0
+    Viewport.Width = 654.000000000000000000
+    Viewport.Height = 145.000000000000000000
+  end
+  object navCliente: TBindNavigator
+    Position.X = 184.000000000000000000
+    Position.Y = 8.000000000000000000
+    Size.Width = 300.000000000000000000
+    Size.Height = 41.000000000000000000
+    Size.PlatformDefault = False
+    DataSource = bindSourceCliente
+    xRadius = 4.000000000000000000
+    yRadius = 4.000000000000000000
+  end
+  object Panel1: TPanel
+    Align = Top
+    Position.Y = 253.000000000000000000
+    Size.Width = 658.000000000000000000
+    Size.Height = 57.000000000000000000
+    Size.PlatformDefault = False
+    object navContato: TBindNavigator
+      Position.X = 184.000000000000000000
+      Position.Y = 8.000000000000000000
+      Size.Width = 300.000000000000000000
+      Size.Height = 41.000000000000000000
+      Size.PlatformDefault = False
+      DataSource = bindSourceContato
+      xRadius = 4.000000000000000000
+      yRadius = 4.000000000000000000
+    end
+  end
+  object dtsCliente: TDataSource
+    DataSet = qryCliente
+    Left = 24
+    Top = 344
+  end
+  object dtsContato: TDataSource
+    DataSet = qryContato
+    Left = 24
+    Top = 400
+  end
+  object bindSourceCliente: TBindSourceDB
+    DataSource = dtsCliente
+    ScopeMappings = <>
+    Left = 120
+    Top = 368
+  end
+  object bindListClienteContato: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 124
+    Top = 309
+    object LinkGridToDataSourceBindSourceDB1: TLinkGridToDataSource
+      Category = 'Quick Bindings'
+      DataSource = bindSourceCliente
+      GridControl = grdCliente
+      Columns = <
+        item
+          MemberName = 'ID'
+        end
+        item
+          MemberName = 'NOME'
+        end
+        item
+          MemberName = 'CEP'
+        end
+        item
+          MemberName = 'LOGRADOURO'
+        end
+        item
+          MemberName = 'NUMERO'
+        end
+        item
+          MemberName = 'COMPLEMENTO'
+        end
+        item
+          MemberName = 'CIDADE'
+        end
+        item
+          MemberName = 'IBGE_CIDADE'
+        end
+        item
+          MemberName = 'SIGLA_UF'
+        end
+        item
+          MemberName = 'IBGE_UF'
+        end>
+    end
+    object LinkGridToDataSourceBindSourceDB2: TLinkGridToDataSource
+      Category = 'Quick Bindings'
+      DataSource = bindSourceContato
+      GridControl = grdContato
+      Columns = <
+        item
+          MemberName = 'ID'
+        end
+        item
+          MemberName = 'NOME'
+        end
+        item
+          MemberName = 'DATA_NASC'
+          ColumnStyle = 'DateColumn'
+        end
+        item
+          MemberName = 'IDADE'
+        end
+        item
+          MemberName = 'TELEFONE'
+        end
+        item
+          MemberName = 'ID_CLIENTE'
+        end>
+    end
+  end
+  object bindSourceContato: TBindSourceDB
+    DataSource = dtsContato
+    ScopeMappings = <>
+    Left = 120
+    Top = 424
+  end
+  object rResponseIBGE: TRESTResponse
+    ContentType = 'text/html'
+    Left = 600
+    Top = 120
+  end
+  object rClientIBGE: TRESTClient
+    Accept = 'application/json, text/plain; q=0.9, text/html;q=0.8,'
+    AcceptCharset = 'utf-8, *;q=0.8'
+    BaseURL = 'https://api.postmon.com.br/v1'
+    Params = <>
+    Left = 600
+    Top = 8
+  end
+  object rRequestIBGE: TRESTRequest
+    Client = rClientIBGE
+    Params = <
+      item
+        Name = 'cep'
+        Value = '37110000'
+      end>
+    Resource = 'cep/37110000'
+    Response = rResponseIBGE
+    Left = 600
+    Top = 64
+  end
+  object cnxClienteContato: TFDConnection
+    Params.Strings = (
+      'Database=C:\TESTE_MICRODATA.FDB'
+      'User_Name=SYSDBA'
+      'Password=masterkey'
+      'Server=localhost'
+      'Port=3051'
+      'DriverID=FB')
+    Connected = True
+    LoginPrompt = False
+    Left = 48
+    Top = 96
+  end
+  object qryCliente: TFDQuery
+    Connection = cnxClienteContato
+    UpdateOptions.AssignedValues = [uvFetchGeneratorsPoint, uvGeneratorName]
+    UpdateOptions.FetchGeneratorsPoint = gpImmediate
+    UpdateOptions.GeneratorName = 'GEN_CLIENTE'
+    SQL.Strings = (
+      'select'
+      '  cliente.id,'
+      '  cliente.nome,'
+      '  cliente.cep,'
+      '  cliente.logradouro,'
+      '  cliente.numero,'
+      '  cliente.complemento,'
+      '  cliente.cidade,'
+      '  cliente.ibge_cidade,'
+      '  cliente.sigla_uf,'
+      '  cliente.ibge_uf'
+      'from'
+      '  cliente'
+      '')
+    Left = 48
+    Top = 152
+    object qryClienteID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object qryClienteNOME: TStringField
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      Required = True
+      Size = 50
+    end
+    object qryClienteCEP: TStringField
+      FieldName = 'CEP'
+      Origin = 'CEP'
+      Required = True
+      OnSetText = qryClienteCEPSetText
+      Size = 8
+    end
+    object qryClienteLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Origin = 'LOGRADOURO'
+      Required = True
+      Size = 60
+    end
+    object qryClienteNUMERO: TStringField
+      FieldName = 'NUMERO'
+      Origin = 'NUMERO'
+      Required = True
+      Size = 10
+    end
+    object qryClienteCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Origin = 'COMPLEMENTO'
+      Required = True
+      Size = 40
+    end
+    object qryClienteCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Origin = 'CIDADE'
+      Required = True
+      Size = 40
+    end
+    object qryClienteIBGE_CIDADE: TStringField
+      FieldName = 'IBGE_CIDADE'
+      Origin = 'IBGE_CIDADE'
+      Required = True
+      Size = 7
+    end
+    object qryClienteSIGLA_UF: TStringField
+      FieldName = 'SIGLA_UF'
+      Origin = 'SIGLA_UF'
+      Required = True
+      Size = 2
+    end
+    object qryClienteIBGE_UF: TStringField
+      FieldName = 'IBGE_UF'
+      Origin = 'IBGE_UF'
+      Required = True
+      Size = 2
+    end
+  end
+  object qryContato: TFDQuery
+    IndexFieldNames = 'ID_CLIENTE'
+    MasterSource = dtsCliente
+    MasterFields = 'ID'
+    Connection = cnxClienteContato
+    UpdateOptions.AssignedValues = [uvFetchGeneratorsPoint, uvGeneratorName]
+    UpdateOptions.FetchGeneratorsPoint = gpImmediate
+    UpdateOptions.GeneratorName = 'GEN_CONTATO'
+    SQL.Strings = (
+      'select'
+      '  contato.id,'
+      '  contato.nome,'
+      '  contato.data_nasc,'
+      '  contato.idade,'
+      '  contato.telefone,'
+      '  contato.id_cliente'
+      'from'
+      '  contato'
+      'where'
+      '  contato.id_cliente = id_cliente'
+      '')
+    Left = 48
+    Top = 208
+    object qryContatoID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object qryContatoNOME: TStringField
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      Required = True
+      Size = 8
+    end
+    object qryContatoDATA_NASC: TSQLTimeStampField
+      FieldName = 'DATA_NASC'
+      Origin = 'DATA_NASC'
+      Required = True
+      EditMask = '99/!99/0000;1;_'
+    end
+    object qryContatoIDADE: TIntegerField
+      FieldName = 'IDADE'
+      Origin = 'IDADE'
+    end
+    object qryContatoTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Origin = 'TELEFONE'
+      Size = 15
+    end
+    object qryContatoID_CLIENTE: TIntegerField
+      FieldName = 'ID_CLIENTE'
+      Origin = 'ID_CLIENTE'
+    end
+  end
+end
